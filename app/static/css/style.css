@@ -11,18 +11,6 @@
     color: white !important;
 }
 
-.sign {
-    width: 10vw;
-    color: #ff009e !important;
-    background-color: white;
-    height: 2.4vw;
-    align-content: center;
-    align-items: center;
-    margin: 1vw 1vw 1vw 24vw;
-    font-size: 1.2vw !important;
-    padding: 0.4vw !important;
-}
-
 .navbar-brand span {
     color: #ff009e;
     text-decoration: wavy;
@@ -38,23 +26,48 @@
     font-size: 1.4vw;
 }
 
+.sign {
+    width: 10vw;
+    color: #ff009e !important;
+    background-color: white;
+    height: 2.4vw;
+    align-content: center;
+    align-items: center;
+    margin: 1vw 1vw 1vw 24vw;
+    font-size: 1.2vw !important;
+    padding: 0.4vw !important;
+}
+
 .imgs {
     width: 35vw;
     height: 38vw;
     border: 1px solid rgb(201, 199, 199);
     border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 2vw;
-    padding-top: 2vw;
 }
 
-.imgs .btn,
+#profs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 2vw;
+    padding-top: 2vw;
+    flex-wrap: wrap;
+    padding: 2vw 10vw;
+}
+
+#profs .card {
+    margin-left: 3vw;
+}
+
+.profs .btn,
 svg {
-    background-color: transparent;
+    background: transparent !important;
     color: #ff009e;
     border: none;
+}
+
+.btn-primary {
+    background-color: yellow !important;
 }
 
 .reactions {

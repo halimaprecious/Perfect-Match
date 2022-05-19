@@ -20,19 +20,10 @@ app=create_app('development')
 
 @main.route('/')
 def index():
-    # posts = Images.query.order_by(Images.posted.desc()).all()   
-    images = Images.query.order_by(Images.posted.desc()).all()   
-    
-    # images=Images.query.filter_by(uploader_id=current_user.id).all()
-    
+    images = Images.query.order_by(Images.posted.desc()).all()       
     return render_template("index.html",images=images)
 
-#user profile on index
-@main.route('/user/<username>')
-def profindex(username):
-   user = User.query.filter_by(username=username).first()
 
-   return render_template("profindex.html", user = user)
 
 @main.route("/uploadimage",methods=["POST","GET"])
 @login_required
@@ -61,9 +52,10 @@ def uploadimage():
 #user profile
 @main.route('/user/<username>')
 def profile(username):
-   user = User.query.filter_by(username=username).first()
+   user = User.query.filter_by(username=username).first() 
+   images = Images.query.filter_by(author = current_user.id).all()
+   return render_template("profile/profile.html", user = user, images= images)
 
-   return render_template("profile/profile.html", user = user)
 
 #update profile
 @main.route('/user/<username>/update',methods =['GET','POST'])

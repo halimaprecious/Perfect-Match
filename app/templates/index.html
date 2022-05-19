@@ -3,15 +3,18 @@
 {%endblock%} {%block content%}
 <div class="col-lg-2"></div>
 <div class="container">
-  {% for image in images %}
-  <div class="col-lg-4">
-    <div class="imgs ">
-      <div class="imgs-top ">
-      </div>
-      <div class="imgs-body ">
-        <img id="imgpost" src="{{url_for('static', filename='uploads/'+image.name)}}" alt="This is the image"
-          srcset="" />
 
+  <p>{{image.caption}}</p>
+
+
+
+  <div class="card-deck" id="profs">
+    {% for image in images %}
+    <div class="card">
+      <img class="card-img-top" id="imgpost" src="{{url_for('static', filename='uploads/'+image.name)}}"
+        alt="This is the image" srcset="" />
+      <div class="card-body">
+        <p class="card-text">{{image.caption}}</p>
         <div class="reactions">
           <a name="" id="" class="btn btn-primary" href="#" role="button">
             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1.4em" height="1.4em"
@@ -19,9 +22,9 @@
               <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
                 d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.987 10.987 0 0 0 15 8Z" />
             </svg>
-
           </a>
-          <a name="" id="" class="btn btn-primary" href="#comment" role="button">
+          <a name="" id="" class="btn btn-primary" href="#
+       " role="button">
             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1.4em" height="1.4em"
               preserveAspectRatio="xMidYMid meet" viewBox="0 0 512 512">
               <path fill="currentColor"
@@ -38,48 +41,40 @@
             </svg>
           </a>
         </div>
-        <p>{{image.caption}}</p>
         <p>{{image.posted.strftime("%Y-%m-%d")}}</p>
-        {% for comment in image.comments %}
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <a href="/uploadimage/{{comment.author.username}}">{{comment.author.username}}</a>:
-            {{comment.text}}
-          </div>
-          <div>
-            <small class="text-muted">{{comment.date_created.strftime('%B %d, %Y')}}</small>
-          </div>
-        </div>
-        {%endfor%}
       </div>
+      {% for comment in image.comments %}
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <a href="/uploadimage/{{comment.author.username}}">{{comment.author.username}}</a>:
+          {{comment.text}}
+        </div>
+        <div>
+          <small class="text-muted">{{comment.date_created.strftime('%B %d, %Y')}}</small>
+        </div>
+      </div>
+      {%endfor%}
     </div>
-    <p class="card-text">
-      {% if image.comments|length > 0 %}
-      <a data-bs-toggle="collapse" class="text-white" href="#comments-{{image.id}}" role="button">
-        <small>View {{image.comments|length}} Comments</small>
-      </a>
-      {% else %}
-      <small class="text-muted">Leave a comment</small>
-      {% endif %}
-    </p>
-    <form class="input-group mb-3" method="POST" action="/comment/{{image.id}}">
-      <input type="text" id="text" name="text" class="form-control" placeholder="Write a comment">
-      <button type="submit" class="btn comment">Comment</button>
-    </form>
   </div>
+  <p class="card-text">
+    {% if image.comments|length > 0 %}
+    <a data-bs-toggle="collapse" class="text-white" href="#comments-{{image.id}}" role="button">
+      <small>View {{image.comments|length}} Comments</small>
+    </a>
+    {% else %}
+    <small class="text-muted">Leave a comment</small>
+    {% endif %}
+  </p>
+  <form class="input-group mb-3" method="POST" action="/comment/{{image.id}}">
+    <input type="text" id="text" name="text" class="form-control" placeholder="Write a comment">
+    <button type="submit" class="btn comment">Comment</button>
+  </form>
 </div>
 {%endfor%}
 </div>
 
-
-
-
-<div class="col-lg-2">
-  <p>
-    <!-- Logged in as  -->
-    <a href="{{url_for('main.profile',username=current_user.username)}}" class="nav-item nav-link">{{name}}</a>
-  </p>
-
 </div>
 
+{%endfor%}
+</div>
 {%endblock%}

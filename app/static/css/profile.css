@@ -1,31 +1,153 @@
 /* Profile syling */
+
+.navbar {
+    background-color: #a3069b;
+    padding-left: 5vw;
+    color: white;
+    font-weight: bold;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 2vw;
+    color: white !important;
+}
+
+.navbar-brand span {
+    color: #ff009e;
+    text-decoration: wavy;
+}
+
+.navbar-collapse {
+    padding-left: 35vw;
+}
+
+.navbar .navbar-nav li a {
+    font-weight: bold;
+    color: white;
+    font-size: 1.4vw;
+}
+
+.sign {
+    width: 10vw;
+    color: #ff009e !important;
+    background-color: white;
+    height: 2.4vw;
+    align-content: center;
+    align-items: center;
+    margin: 1vw 1vw 1vw 24vw;
+    font-size: 1.2vw !important;
+    padding: 0.4vw !important;
+}
+
+.imgs {
+    width: 35vw;
+    height: 38vw;
+    border: 1px solid rgb(201, 199, 199);
+    border-radius: 5px;
+}
+
+#profs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 2vw;
+    padding-top: 2vw;
+    flex-wrap: wrap;
+    padding: 2vw 10vw;
+}
+
+#profs .card {
+    margin-left: 3vw;
+}
+
+.imgs .btn,
+svg {
+    background-color: transparent;
+    color: #ff009e;
+    border: none;
+}
+
+.reactions {
+    width: 15vw;
+}
+
+#imgpost {
+    width: 30vw !important;
+    height: 30vw;
+    object-fit: cover;
+}
+
+#registerFrm,
+#loginFrm {
+    width: 38vw !important;
+    box-shadow: 1px 1px 5px grey;
+    height: 80vh;
+    padding: 2vw 2vw;
+    border-radius: 10px;
+    margin-top: 2vw;
+}
+
+.topicH {
+    text-align: center;
+    font-weight: bold;
+    color: #ff819f;
+    font-size: 1.6vw;
+}
+
+.form-control {
+    border: 1px solid #ff009e;
+}
+
+
+/* .btn {
+    background-color: #ff009e !important;
+    width: 100%;
+    margin-bottom: 2vw;
+    height: 3vw;
+    color: white;
+    font-weight: bold;
+    font-size: 1.4vw;
+} */
+
+input {
+    background-color: none !important;
+    width: 32vw !important;
+}
+
 .pro {
     float: none;
     display: block;
     margin: auto;
-    width: 20px; 
-    height: 20px;
-    border-radius: 50% !important;  
+    width: 70%;
+    height: 80%;
+    border-radius: 60%;
 }
-.pro img{
-    width: 20px;
-    height: 20px;
-}
-input[type="file"]{
+
+input[type="file"] {
     background-color: transparent;
     border: none;
 }
-input[type="submit"]{
-    background-color:  #ff819f; 
-    width: 20%;
+
+input[type="submit"] {
+    background-color: transparent;
+    width: 7vw !important;
+    border-radius: 5px;
+    color: #a3069b;
+    border: #ff009e 1px solid;
 }
-#upload{
+
+#upload {
     background-color: transparent;
 }
-#update{
-    width: 40vw !important;
-    height: 100vh;
-    padding: 2vw 2vw;
-    border-radius: 10px;
-    margin-top: 2vw;
+
+.details p span {
+    color: #ff009e;
+}
+
+#editprof {
+    width: 10vw;
+    border: #ff009e 1px solid;
+    background-color: transparent;
+    color: #a3069b;
 }
