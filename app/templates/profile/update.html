@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html' %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
@@ -11,6 +12,16 @@
 {% block content %}
 <div class="container" id="update">
 
+=======
+{% extends 'base.html' %} {% block styles%}{{super()}}
+<link
+  rel="stylesheet"
+  href="{{url_for('static',filename='css/profile.css')}}"
+/>
+{%endblock%} {% import 'bootstrap/wtf.html' as wtf %} {% block content %}
+<div class="container updatefrm">
+  <p class="titl">My <span>Profile</span></p>
+>>>>>>> upstream/develop
   {{wtf.quick_form(form)}}
 </div>
 {% endblock %}

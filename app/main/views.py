@@ -1,4 +1,3 @@
-
 import os	
 import urllib.request
 from flask import Flask, flash, request, redirect, url_for, render_template
@@ -7,10 +6,6 @@ from flask_login import login_required,current_user
 from ..models import User,Like,Comment,Images
 from .forms import UpdateProfile,UploadForm
 from .. import db, photos
-
-
-
-
 from . import main
 from werkzeug.utils import secure_filename
 from app import create_app
@@ -20,8 +15,8 @@ app=create_app('development')
 
 @main.route('/')
 def index():
-   
-    images = Images.query.order_by(Images.posted.desc()).all()       
+    images = Images.query.order_by(Images.posted.desc()).all()   
+    
     return render_template("index.html",images=images,user=current_user)
 
 
@@ -43,12 +38,19 @@ def uploadimage():
         return redirect(url_for("main.index"))
     return render_template("postpic.html", upload_form=frm,user=user.username)
  
-# @main.route("/viewimage",methods=["POST","GET"])
-# @login_required
-# def viewimage():
-#     userimages=Images.query.filter_by(uploader_id=current_user.id).all()
-#     return render_template("imageview.html",name=current_user.username,images=userimages)
 
+
+@main.route('/profile/<uname>')
+def userprofile(uname):
+   user = Images.query.filter_by(author=uname).first() 
+   images = Images.query.filter_by(author = current_user.id).all()
+   # userdata = Images.query.filter_by()
+   
+    
+   if user is None:
+    
+      return render_template('errors/404.html')
+   return render_template("profile/profile.html", user=uname, images= images) 
 
 #user profile
 @main.route('/user/<username>')

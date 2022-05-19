@@ -38,15 +38,7 @@ class User(UserMixin, db.Model):
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
 
-# class Post(db.Model):
-#     id = db.Column(db.Integer,primary_key = True)
-#     caption = db.Column(db.Text,nullable=False)
-#     date_created = db.Column(db.DateTime(timezone=False),default=func.now())
-#     author = db.Column(db.Integer,db.ForeignKey('users.id',ondelete='CASCADE'))
-#     comments = db.relationship('Comment',backref='post',passive_deletes=True)
-#     likes = db.relationship('Like',backref='post',passive_deletes=True)
-#     post_pic_path = db.Column(db.String())
-    
+
 class Comment(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     text = db.Column(db.String(200),nullable=False)
