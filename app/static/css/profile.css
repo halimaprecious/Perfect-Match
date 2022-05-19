@@ -3,10 +3,7 @@
     float: none;
     display: block;
     margin: auto;
-    width: 60%;
-    height: 70%;
-    -webkit-border-radius: 50% !important;
-    -moz-border-radius: 50% !important; 
+    width: 60%; 
     border-radius: 50% !important;  
 }
 input[type="file"]{
@@ -14,9 +11,16 @@ input[type="file"]{
     border: none;
 }
 input[type="submit"]{
-    background-color:  rgb(110, 51, 61); 
+    background-color:  #ff819f; 
     width: 20%;
 }
 #upload{
     background-color: transparent;
+}
+#update{
+    width: 40vw !important;
+    height: 100vh;
+    padding: 2vw 2vw;
+    border-radius: 10px;
+    margin-top: 2vw;
 }
