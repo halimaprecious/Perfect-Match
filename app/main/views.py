@@ -10,6 +10,7 @@ from .. import db, photos
 
 
 
+
 from . import main
 from werkzeug.utils import secure_filename
 from app import create_app
@@ -24,7 +25,7 @@ def index():
     
     # images=Images.query.filter_by(uploader_id=current_user.id).all()
     
-    return render_template("index.html",images=images, name= current_user.username)
+    return render_template("index.html",images=images)
 
 #user profile on index
 @main.route('/user/<username>')
@@ -100,4 +101,35 @@ def update_pic(username):
       db.session.commit()
 
    return redirect(url_for('main.profile',username=username))
+
+# comments route
+@main.route('/comment/<post_id>',methods=['POST'])
+@login_required
+def comment(post_id):
+   text = request.form.get('text')
+
+   post = Images.query.filter_by(id=post_id)
+   if post:
+      comment = Comment(text = text, author=current_user.id, post_id= post_id)
+      db.session.add(comment)
+      db.session.commit() 
+   
+   return redirect(url_for('main.comment',post_id= post_id))
+
+# likes route
+@main.route('/like/<post_id>',methods=['GET'])
+@login_required
+def like(post_id):
+   post = Images.query.filter_by(id=post_id).first()
+   like =Like.query.filter_by(author=current_user.id, post_id = post_id).first()
+   
+   if like:
+      db.session.delete(like)
+      db.session.commit()
+   else:
+      like = Like(author=current_user.id, post_id=post_id)
+      db.session.add(like)
+      db.session.commit()
+
+   return redirect(url_for('main.home'))
 

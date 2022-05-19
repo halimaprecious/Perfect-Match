@@ -9,11 +9,12 @@
     <!-- profile photo -->
     <div class="col-md-4">
       {% if user.profile_pic_path %}
-      <img
+      <div class="pro">
+      <img 
         src="{{url_for('static',filename=user.profile_pic_path)}}"
         alt=""
-        class="img-thumbnail pro"
       />
+    </div>
       {%else%}
       <div class="profile-userpic">
         <img
