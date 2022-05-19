@@ -29,5 +29,7 @@ class UpdateProfile(FlaskForm):
     
 class UploadForm(FlaskForm):
     file=FileField('Add a File',validators=[DataRequired()])
+    caption = StringField('Caption', validators= [DataRequired()])
+   
     submit=SubmitField('Upload')
 

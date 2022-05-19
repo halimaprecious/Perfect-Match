@@ -4,10 +4,9 @@ import urllib.request
 from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 from flask_login import login_required,current_user
-from ..models import User,Post,Like,Comment,Images
-from .forms import UpdateProfile,UploadForm,PostPic
+from ..models import User,Like,Comment,Images
+from .forms import UpdateProfile,UploadForm
 from .. import db, photos
-
 
 
 
@@ -20,59 +19,19 @@ app=create_app('development')
 
 @main.route('/')
 def index():
-    return render_template('index.html')
+    # posts = Images.query.order_by(Images.posted.desc()).all()   
+    images = Images.query.order_by(Images.posted.desc()).all()   
+    
+    # images=Images.query.filter_by(uploader_id=current_user.id).all()
+    
+    return render_template("index.html",images=images, name= current_user.username)
 
-# write post
-@main.route('/post/',methods=['GET','POST'])
-@login_required
-def post():
-   posts = Post.query.all()
-   form =PostPic()
-   if form.validate_on_submit():
-      caption= form.caption.data
-      feed_picture=form.feed_picture.data
-      
-      post = Post(caption=caption,feed_picture=feed_picture)
-      db.session.add(post)
-      db.session.commit()
-   
-      return redirect(url_for('main.home'))
+#user profile on index
+@main.route('/user/<username>')
+def profindex(username):
+   user = User.query.filter_by(username=username).first()
 
-   return render_template('posts.html',user=current_user,form =form,posts=posts)
-
-
-# comments route
-@main.route('/comment/<post_id>',methods=['POST'])
-@login_required
-def comment(post_id):
-   text = request.form.get('text')
-
-   post = Post.query.filter_by(id=post_id)
-   if post:
-      comment = Comment(text = text, author=current_user.id, post_id= post_id)
-      db.session.add(comment)
-      db.session.commit()
-   return redirect(url_for('main.home'))
-
-# likes route
-@main.route('/like/<post_id>',methods=['GET'])
-@login_required
-def like(post_id):
-   post = Post.query.filter_by(id=post_id).first()
-   like =Like.query.filter_by(author=current_user.id, post_id = post_id).first()
-   
-   if not post:
-      flash('Post does not exist',category='error')
-   elif like:
-      db.session.delete(like)
-      db.session.commit()
-   else:
-      like = Like(author=current_user.id, post_id=post_id)
-      db.session.add(like)
-      db.session.commit()
-
-   return redirect(url_for('main.home'))
-
+   return render_template("profindex.html", user = user)
 
 @main.route("/uploadimage",methods=["POST","GET"])
 @login_required
@@ -80,21 +39,22 @@ def uploadimage():
     user=current_user
     frm=UploadForm()
     if frm.validate_on_submit():
+        caption = frm.caption.data
         file=request.files["file"]
         file.save(os.path.join(app.config["UPLOAD_FOLDER"],secure_filename(file.filename)))
+
        
-        
-        upload=Images(name=secure_filename(file.filename),uploader_id=user.id)
+        upload=Images(name=secure_filename(file.filename),author=user.id, caption= caption)
         db.session.add(upload)
         db.session.commit()
-        return redirect(url_for("main.viewimage"))
+        return redirect(url_for("main.index"))
     return render_template("postpic.html", upload_form=frm,user=user.username)
  
-@main.route("/viewimage",methods=["POST","GET"])
-@login_required
-def viewimage():
-    userimages=Images.query.filter_by(uploader_id=current_user.id).all()
-    return render_template("imageview.html",name=current_user.username,images=userimages)
+# @main.route("/viewimage",methods=["POST","GET"])
+# @login_required
+# def viewimage():
+#     userimages=Images.query.filter_by(uploader_id=current_user.id).all()
+#     return render_template("imageview.html",name=current_user.username,images=userimages)
 
 
 #user profile

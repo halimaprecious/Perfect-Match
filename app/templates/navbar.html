@@ -13,7 +13,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/"> Perfect Match </a>
+      <a class="navbar-brand" href="/"> Perfect <span>Match</span> </a>
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -21,14 +21,40 @@
 
         {% if current_user.is_authenticated %}
 
-        <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
-       <li><a href="{{url_for('main.profile',username=current_user.username)}}"
-        class="nav-item nav-link">Profile</a></li> 
+        <li>
+          <a
+            href="{{url_for('main.profile',username=current_user.username)}}"
+            class="nav-item nav-link"
+            >Profile</a
+          >
+        </li>
 
         <li><a href="{{url_for('main.uploadimage')}}">Upload</a></li>
+        <li>
+          <a
+            name=""
+            id=""
+            class="btn btn-primary sign"
+            href="{{url_for('auth.logout')}}"
+            role="button"
+          >
+            Sign out</a
+          >
+        </li>
 
         {% else %}
-        <li><a href="{{url_for('auth.login')}}">Sign in</a></li>
+        <li>
+          <a
+            name=""
+            id=""
+            class="btn btn-primary sign"
+            href="{{url_for('auth.login')}}"
+            role="button"
+          >
+            Sign out</a
+          >
+        </li>
+
         {%endif%}
       </ul>
     </div>

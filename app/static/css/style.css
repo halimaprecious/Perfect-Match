@@ -1,12 +1,70 @@
 .navbar {
-    background-color: #ff009e;
+    background-color: #a3069b;
     padding-left: 5vw;
     color: white;
     font-weight: bold;
 }
 
+.navbar-brand {
+    font-weight: bold;
+    font-size: 2vw;
+    color: white !important;
+}
+
+.sign {
+    width: 10vw;
+    color: #ff009e !important;
+    background-color: white;
+    height: 2.4vw;
+    align-content: center;
+    align-items: center;
+    margin: 1vw 1vw 1vw 24vw;
+    font-size: 1.2vw !important;
+    padding: 0.4vw !important;
+}
+
+.navbar-brand span {
+    color: #ff009e;
+    text-decoration: wavy;
+}
+
 .navbar-collapse {
-    padding-left: 40vw;
+    padding-left: 35vw;
+}
+
+.navbar .navbar-nav li a {
+    font-weight: bold;
+    color: white;
+    font-size: 1.4vw;
+}
+
+.imgs {
+    width: 35vw;
+    height: 38vw;
+    border: 1px solid rgb(201, 199, 199);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2vw;
+    padding-top: 2vw;
+}
+
+.imgs .btn,
+svg {
+    background-color: transparent;
+    color: #ff009e;
+    border: none;
+}
+
+.reactions {
+    width: 15vw;
+}
+
+#imgpost {
+    width: 30vw !important;
+    height: 30vw;
+    object-fit: cover;
 }
 
 #registerFrm,
@@ -30,7 +88,8 @@
     border: 1px solid #ff009e;
 }
 
-.btn {
+
+/* .btn {
     background-color: #ff009e !important;
     width: 100%;
     margin-bottom: 2vw;
@@ -38,7 +97,7 @@
     color: white;
     font-weight: bold;
     font-size: 1.4vw;
-}
+} */
 
 input {
     background-color: none !important;
