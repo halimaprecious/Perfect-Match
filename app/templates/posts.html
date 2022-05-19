@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid cont">
+  <h2>Posts</h2>
+  <a href="/post/"class="text-white">Create a post</a>
+    {%if post%}
+    {% for post in post %}
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4>{{post.caption}}</h4>
+          <div>{{post.likes|length}}
+            {% if user.id in post.likes|map(attribute="author")|list %}
+            <a href="/like/{{post.id}}"><i class="fas fa-thumbs-up"></i></a>
+            {% else %}
+            <a href="/like/{{post.id}}"><i class="far fa-thumbs-up"></i></a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="card-body ">
+          <div class="card-text">{{post.caption}}</div><br>
+          <div class="collapse" id="comments-{{post.id}}">
+            
+              <div class="card-text" id="comments-expanded-{{post.id}}">
+                {% for comment in post.comments %}
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <a href="/post/{{comment.user.username}}">{{comment.user.username}}</a>:
+                    {{comment.text}}
+                  </div>
+                  <div>
+                    <small class="text-muted">{{comment.date_created.strftime('%B %d, %Y')}}</small>
+                  </div>
+                </div>
+                {%endfor%}
+              </div>
+            
+          </div>
+          <p class="card-text">
+            {% if post.comments|length > 0 %}
+            <a data-bs-toggle="collapse" class="text-white" href="#comments-{{post.id}}" role="button">
+              <small>View {{post.comments|length}} Comments</small>
+            </a>
+            {% else %}
+            <small class="text-muted">Leave a comment</small>
+            {% endif %}
+          </p>
+          <form class="input-group mb-3" method="POST" action="/comment/{{post.id}}">
+            <input type="text" id="text" name="text" class="form-control" placeholder="Write a comment"> <br>
+            <button type="submit" class="btn comment">Comment</button>
+          </form>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center text-muted"> 
+         <a href="/profile/{{post.user.username}}"> Posted by:{{post.author.username}}</a>
+          <span>On:  {{post.date_created.strftime('%B %d, %Y')}}</span> 
+        <!-- <a href="/post/"class="text-white">Create a post</a> -->
+        </div>
+      </div>
+    </div>
+    <br>
+    <hr>
+    {% endfor %}
+  </div>
+  {% endif%}
+
+{% endblock %}

@@ -5,7 +5,7 @@ from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 from flask_login import login_required,current_user
 from ..models import User,Post,Like,Comment,Images
-from .forms import UpdateProfile,UploadForm
+from .forms import UpdateProfile,UploadForm,PostPic
 from .. import db, photos
 
 
@@ -18,17 +18,60 @@ from app import create_app
 app=create_app('development')
 
 
-
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
-
-def allowed_file(filename):
-	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-
 @main.route('/')
 def index():
     return render_template('index.html')
+
+# write post
+@main.route('/post/',methods=['GET','POST'])
+@login_required
+def post():
+   posts = Post.query.all()
+   form =PostPic()
+   if form.validate_on_submit():
+      caption= form.caption.data
+      feed_picture=form.feed_picture.data
+      
+      post = Post(caption=caption,feed_picture=feed_picture)
+      db.session.add(post)
+      db.session.commit()
+   
+      return redirect(url_for('main.home'))
+
+   return render_template('posts.html',user=current_user,form =form,posts=posts)
+
+
+# comments route
+@main.route('/comment/<post_id>',methods=['POST'])
+@login_required
+def comment(post_id):
+   text = request.form.get('text')
+
+   post = Post.query.filter_by(id=post_id)
+   if post:
+      comment = Comment(text = text, author=current_user.id, post_id= post_id)
+      db.session.add(comment)
+      db.session.commit()
+   return redirect(url_for('main.home'))
+
+# likes route
+@main.route('/like/<post_id>',methods=['GET'])
+@login_required
+def like(post_id):
+   post = Post.query.filter_by(id=post_id).first()
+   like =Like.query.filter_by(author=current_user.id, post_id = post_id).first()
+   
+   if not post:
+      flash('Post does not exist',category='error')
+   elif like:
+      db.session.delete(like)
+      db.session.commit()
+   else:
+      like = Like(author=current_user.id, post_id=post_id)
+      db.session.add(like)
+      db.session.commit()
+
+   return redirect(url_for('main.home'))
 
 
 @main.route("/uploadimage",methods=["POST","GET"])
@@ -84,7 +127,6 @@ def update_profile(username):
 
    return render_template('profile/update.html',form =form)
 
-# profile pic
 
 #profile pic
 @main.route('/user/<username>/update/pic',methods=['POST'])
