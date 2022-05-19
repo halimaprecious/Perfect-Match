@@ -24,6 +24,9 @@
         <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
        <li><a href="{{url_for('main.profile',username=current_user.username)}}"
         class="nav-item nav-link">Profile</a></li> 
+
+        <li><a href="{{url_for('main.uploadimage')}}">Upload</a></li>
+
         {% else %}
         <li><a href="{{url_for('auth.login')}}">Sign in</a></li>
         {%endif%}

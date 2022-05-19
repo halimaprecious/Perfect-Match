@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+<h4> {{ name}} These are the images you have uploaded</h4>
+<a href="{{url_for('main.uploadimage')}}">Upload another image</a>
+<br>
+<a href="{{url_for('auth.logout')}}">Logout</a>
+<br> {% for image in images %}
+<img src="{{url_for('static', filename='uploads/'+image.name)}}" alt="This is the image" srcset=""> {% endfor %}
+
+{% endblock  %}
