@@ -20,8 +20,9 @@ app=create_app('development')
 
 @main.route('/')
 def index():
+   
     images = Images.query.order_by(Images.posted.desc()).all()       
-    return render_template("index.html",images=images)
+    return render_template("index.html",images=images,user=current_user)
 
 
 
@@ -105,7 +106,8 @@ def comment(post_id):
       comment = Comment(text = text, author=current_user.id, post_id= post_id)
       db.session.add(comment)
       db.session.commit() 
-   
+      return redirect(url_for("main.index"))
+
    return redirect(url_for('main.comment',post_id= post_id))
 
 # likes route
@@ -122,6 +124,7 @@ def like(post_id):
       like = Like(author=current_user.id, post_id=post_id)
       db.session.add(like)
       db.session.commit()
+      return redirect(url_for("main.index"))
 
-   return redirect(url_for('main.home'))
+   return redirect(url_for('main.comment',post_id=post_id))
 

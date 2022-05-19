@@ -1,13 +1,8 @@
 {%extends 'base.html'%} {% block styles%}{{super()}}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}" />
 {%endblock%} {%block content%}
-<div class="col-lg-2"></div>
-<div class="container">
-
-  <p>{{image.caption}}</p>
-
-
-
   <div class="card-deck" id="profs">
     {% for image in images %}
     <div class="card">
@@ -16,15 +11,27 @@
       <div class="card-body">
         <p class="card-text">{{image.caption}}</p>
         <div class="reactions">
-          <a name="" id="" class="btn btn-primary" href="#" role="button">
+
+          <div>{{image.likes|length}}
+          {% if user.id in image.likes|map(attribute="author")|list %}
+          <a name="" id="" class="btn btn-primary" href="/like/{{image.id}}" role="button">
             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1.4em" height="1.4em"
               preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
               <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
                 d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.987 10.987 0 0 0 15 8Z" />
             </svg>
           </a>
-          <a name="" id="" class="btn btn-primary" href="#
-       " role="button">
+         {% else %}
+         <a name="" id="" class="btn btn-primary" href="/like/{{image.id}}" role="button">
+          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1.4em" height="1.4em"
+            preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+              d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.987 10.987 0 0 0 15 8Z" />
+          </svg>
+        </a>
+        {% endif %}
+        
+          <a name="" id="" class="btn btn-primary" href="/comment" role="button">
             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1.4em" height="1.4em"
               preserveAspectRatio="xMidYMid meet" viewBox="0 0 512 512">
               <path fill="currentColor"
@@ -41,40 +48,45 @@
             </svg>
           </a>
         </div>
-        <p>{{image.posted.strftime("%Y-%m-%d")}}</p>
-      </div>
-      {% for comment in image.comments %}
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <a href="/uploadimage/{{comment.author.username}}">{{comment.author.username}}</a>:
-          {{comment.text}}
+        <div class="card-body">
+          <div class="collapse" id="comments-{{image.id}}">
+              <div class="card">
+                  <div class="card-body" id="comments-expanded-{{image.id}}">
+                      {% for comment in image.comments %}
+                      <div class="d-flex justify-content-between align-items-center">
+                          <div>
+                              <a href="/uploadimage/{{comment.author.username}}">{{comment.author.username}}</a>:
+                              {{comment.text}}
+                          </div>
+                          <div>
+                              <small class="text-muted">{{comment.date_created}}</small>
+                          </div>
+                      </div>
+
+                      {%endfor%}
+                  </div>
+              </div>
+          </div>
+          <p class="card-text">
+              {% if image.comments|length > 0 %}
+              <a data-bs-toggle="collapse" href="#comments-{{image.id}}" role="button">
+                  <small>View {{image.comments|length}} Comments</small>
+              </a>
+              {% else %}
+              <small class="text-muted">Leave a comment</small>
+              {% endif %}
+          </p>
+          <form class="input-group mb-3" method="POST" action="/comment/{{image.id}}">
+              <input type="text" id="text" name="text" class="form-control" placeholder="Write a comment">
+              <button type="submit" class="btn btn">Comment</button>
+          </form>
+          {%endfor%}
         </div>
-        <div>
-          <small class="text-muted">{{comment.date_created.strftime('%B %d, %Y')}}</small>
-        </div>
+     
+    
       </div>
-      {%endfor%}
     </div>
   </div>
-  <p class="card-text">
-    {% if image.comments|length > 0 %}
-    <a data-bs-toggle="collapse" class="text-white" href="#comments-{{image.id}}" role="button">
-      <small>View {{image.comments|length}} Comments</small>
-    </a>
-    {% else %}
-    <small class="text-muted">Leave a comment</small>
-    {% endif %}
-  </p>
-  <form class="input-group mb-3" method="POST" action="/comment/{{image.id}}">
-    <input type="text" id="text" name="text" class="form-control" placeholder="Write a comment">
-    <button type="submit" class="btn comment">Comment</button>
-  </form>
-</div>
-{%endfor%}
-</div>
-
-</div>
-
-{%endfor%}
-</div>
+    
+ 
 {%endblock%}

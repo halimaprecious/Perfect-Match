@@ -65,10 +65,18 @@ svg {
     color: #ff009e;
     border: none;
 }
-
-.btn-primary {
-    background-color: yellow !important;
+.imgs .btn-primary {
+    background-color: transparent;
+    border: none;
 }
+/* .imgs .btn {
+    background-color: transparent;
+    border: none;
+} */
+
+/* .btn-primary {
+    background-color: yellow !important;
+} */
 
 .reactions {
     width: 15vw;
